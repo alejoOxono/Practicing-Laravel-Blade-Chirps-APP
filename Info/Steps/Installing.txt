@@ -118,6 +118,8 @@ class Chirp extends Model
     add in database/migration/table.php and run
 
     php artisan migrate
+    
+    IF you want to re-migrate all the database, you can simply do: php artisan migrate:refresh
 
 11. Para revisar los datos de la colección e bases de datos se puede usar un comando en tinker
 
