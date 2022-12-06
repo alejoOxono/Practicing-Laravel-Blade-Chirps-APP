@@ -1,0 +1,164 @@
+https://www.youtube.com/watch?v=CdLrVbU5Ip8&ab_channel=Inform%C3%A1ticaDP
+https://bootcamp.laravel.com/blade/installation
+
+1. If you have already installed PHP and Composer on your local machine,
+you may create a new Laravel project via Composer:
+
+    composer create-project laravel/laravel chirper
+
+    chirper is the name of the project
+
+2. After the project has been created, start Laravel's local development
+server using the Laravel's Artisan CLI serve command:
+
+    cd chirper
+
+    php artisan serve
+
+    Tener instalado la base de datos que se va a usar, si es sqlite verificar documentación para configurar el
+    archivo .env
+
+3. Installing Laravel Breeze in another terminal para tener implementación de todas las funcionoes de
+   autoenticación de laravel(inicio de sección-reestablecer contraseñas, etc)
+
+    composer require laravel/breeze --dev
+
+4. Installing Blade
+
+    php artisan breeze:install blade
+
+    4.1 Para instalar REACT que sera usado con innertia para la conexión con laravel
+
+        php artisan breeze:install react
+
+        Los recursos de REACT y de BLAZE se pueden encontrar en el directorio resources
+
+5. Laravel's Vite integration
+Breeze will install and configure your front-end dependencies for you,
+so we just need to start the Vite development server to automatically
+recompile our CSS and refresh the browser when we make changes to our Blade templates:
+
+    npm run dev
+
+6. Finally, open another terminal in your chirper project directory and run the initial
+database migrations to populate the database with the default tables from Laravel and Breeze:
+
+7. create a model, migration, and resource controller for our Chirps with the following command:
+
+    php artisan make:model -mrc Chirp
+
+    Chirps are short messages
+
+    This command will create three files for you:
+
+    app/Models/Chirp.php - The Eloquent model.
+    database/migrations/<timestamp>_create_chirps_table.php - The database migration that will create your database table.
+    app/Http/Controller/ChirpController.php - The HTTP controller that will take incoming requests and return responses.
+
+    Los Modelos proporcionan una interfaz para que se pueda interactuar con las tablas de la Blade
+    La migración permite la modificación de las tablas de la BD para asegurar la estructura de la base de datos
+    El controlador es el encargado de procesar las solicitudes/request y devolver una respuesta
+    Se necesitan URLS/rutas para el controlador agregando rutas dependiendo de que tipo es el proyecto, si es
+        Api en API y si es un proyecto todo integrado en el archivo web
+
+    Los tres archivos pueden ser creados a partir de un comando distinto para cada uno individualmente
+        php artisan make:migration create_name(s)_table //plural
+        php artisan make:model name                     //singular
+        php artisan make:controller nameController -r   //-r define un controlador recurso para tener todos los
+                                                            métodos y automatizar el preoceso
+
+NOTA  You can see all the available options by running the
+
+    php artisan make:model --help
+
+
+8. Create Routes and Routing into routes/web.php
+
+    Para crear una ruta recurso con el código
+
+            Route::resource('name(s)', 'nameController');
+
+    Para verificar las rutas
+
+        php artisan route:list
+
+    Para resolver problemas de rutas
+
+        php artisan route:cache
+
+        8.2 LLenar los returno del controlador con las plantillas para cada request. Para el caso de uso
+        de React usando INERTIA para el llamado del componente JSX. Inertia siendo una herramienta para la
+        creación de aplicaciones web del lado del servidor a estilo monolito(llamado monolito moderno). Inertia
+        es un puente que através de adaptadores (react, vue, svelte del lado del cliente renderizado en el servidor)
+
+            public function index()
+            {
+                return Inertia::render('nameModelOrTable/Index',[
+
+                ]);
+            }
+
+        Dentro de el recurso 'Pages en 'Resources'
+
+9. Mass assignment protection.  add the $fillable property.
+app/Models/Chirp.php
+<?php
+ ...
+class Chirp extends Model
+{
+ ...
+    use HasFactory;
+    protected $fillable = [
+        'message',
+    ];
+}
+
+10. to add some extra columns.
+
+    add in database/migration/table.php and run
+
+    php artisan migrate
+
+11. Para revisar los datos de la colección e bases de datos se puede usar un comando en tinker
+
+    php artisan tinker
+
+    >Chirp::all();
+
+    exit Tinker by using the exit command, or by pressing Ctrl + c.
+
+12. Creating notifications
+    In addition to support for sending email, Laravel provides support for sending
+    notifications across a variety of delivery channels, including email, SMS, and Slack.
+    Plus, a variety of community built notification channels have been created to send notification
+    over dozens of different channels! Notifications may also be stored in a database so
+    they may be displayed in your web interface.
+
+    create a new notification at app/Notifications/NewChirp.php
+
+        php artisan make:notification NewChirp
+
+13. Creating an event
+    Events are a great way to decouple various aspects of your application,
+    since a single event can have multiple listeners that do not depend on each other.
+
+    This will create a new event class at app/Events/ChirpCreated.php
+        app/Events/ChirpCreated.php
+
+14. Creating an event listener
+    Now that we're dispatching an event, we're ready to listen for that event and send our notification.
+
+        php artisan make:listener SendChirpCreatedNotifications --event=ChirpCreated
+
+    The new listener will be placed at app/Listeners/SendChirpCreatedNotifications.php.
+    Let's update the listener to send our notifications.
+
+15. Registering the event listener
+    Finally, let's bind our event listener to the event.
+    This will tell Laravel to invoke our event listener when the corresponding event is dispatched.
+    We can do this within our EventServiceProvider class:
+
+
+NOTA
+    Midleware --> Proporciona un mecanismo para filtrar e inspeccionar
+                  las solicitudes que ingresan a la aplicación

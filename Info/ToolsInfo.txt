@@ -1,0 +1,43 @@
+https://www.youtube.com/watch?v=CdLrVbU5Ip8&ab_channel=Inform%C3%A1ticaDP
+https://bootcamp.laravel.com/
+
+Blade
+
+Blade is the simple, yet powerful templating engine that is included with Laravel.
+Your HTML will be rendered server-side, making it a breeze to include dynamic content from your database.
+
+Maquetado --> Talwind CSS
+
+FrontEnd --> React
+
+Sistema de autenticación --> Laravel breeze
+
+Conexión de Laravel y React mediante INERTIA
+
+Bases de datos --> MYSQL
+
+
+Creating Chirps
+
+You're now ready to start building your new application! Let's allow our users to post short messages called Chirps.
+
+Models, migrations, and controllers
+
+To allow users to post Chirps, we will need to create models, migrations, and controllers. Let's explore each of these concepts a little deeper:
+
+    Models provide a powerful and enjoyable interface for you to interact with the tables in your database.
+    Migrations allow you to easily create and modify the tables in your database. They ensure that the same database structure exists everywhere that your application runs.
+    Controllers are responsible for processing requests made to your application and returning a response.
+
+
+Routing
+
+We will also need to create URLs for our controller. We can do this by adding "routes", which are managed
+in the routes directory of your project. Because we're using a resource controller, we can use a single
+Route::resource() statement to define all of the routes following a conventional URL structure.
+
+Artisan Tinker
+
+is a simple interactive computer programming environment that takes single user inputs,
+executes them, and returns the result to the user
+Laravel Tinker is a powerful REPL for the Laravel framework, powered by the PsySH package.
