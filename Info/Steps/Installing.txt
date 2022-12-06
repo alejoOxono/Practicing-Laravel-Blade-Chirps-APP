@@ -94,7 +94,6 @@ NOTA  You can see all the available options by running the
             public function index()
             {
                 return Inertia::render('nameModelOrTable/Index',[
-
                 ]);
             }
 
@@ -120,7 +119,36 @@ class Chirp extends Model
     php artisan migrate
     
     IF you want to re-migrate all the database, you can simply do: php artisan migrate:refresh
-
+    
+    10.2 Para Definir relaciones muchos a muchos primero se debe crear mugraciones para las dos tablas inplicadas
+        
+            php artisan make:migration create_nameTableOne_nameTabletwo_table
+            
+         Crear en el modelo 2 campos para los ID foraneos
+         
+            $table->unsignedBigInteger('nameTableOne_id');
+            $table->unsignedBigInteger('nameTableTwo_id');
+            //constrain
+            $table->foreign('nameTableOne_id')->references('id')->on('nameTableOne')->onDelete('cascade');
+            $table->foreign('nameTableTwo_id')->references('id')->on('nameTableTwo')->onDelete('cascade');
+            
+            php artisan migrate
+            
+         Dentro de los modelos
+            Para nameTableOne:
+                
+                 public function nameTableTwo()
+                 {
+                    return $this->belongsToMany(NameTableTwo::class);  
+                 }
+                 
+            Para nameTableTwo:
+                
+                 public function nameTableOne()
+                 {
+                    return $this->belongsToMany(NameTableOne::class);  
+                 }
+                 
 11. Para revisar los datos de la colección e bases de datos se puede usar un comando en tinker
 
     php artisan tinker
